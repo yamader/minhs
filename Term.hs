@@ -99,3 +99,15 @@ nf' :: TRS -> Term -> Term
 nf' r t = case rewrite r t <|> Just t of
   Just (App t1 t2) -> App (nf r t1) (nf r t2)
   Just t           -> t
+
+-- makeList
+
+makeList :: [Term] -> Term
+makeList []     = Const "nil"
+makeList (t:ts) = App (App (Const "cons") t) (makeList ts)
+
+-- makePeanoNum
+
+makePeanoNum :: Int -> Term
+makePeanoNum 0 = Const "0"
+makePeanoNum n = App (Const "s") (makePeanoNum (n - 1))
