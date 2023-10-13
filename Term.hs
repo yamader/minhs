@@ -111,3 +111,15 @@ makeList (t:ts) = App (App (Const "cons") t) (makeList ts)
 makePeanoNum :: Int -> Term
 makePeanoNum 0 = Const "0"
 makePeanoNum n = App (Const "s") (makePeanoNum (n - 1))
+
+-- headSymbol
+
+headSymbol :: Term -> String
+headSymbol (Var x)    = x
+headSymbol (Const f)  = f
+headSymbol (App t1 _) = headSymbol t1
+
+-- headSymbols
+
+headSymbols :: TRS -> [String]
+headSymbols r = nub [headSymbol l | (l, _) <- r]
